@@ -3,6 +3,7 @@ version: "3"
 services:
   namenode:
     image: bde2020/hadoop-namenode:2.0.0-hadoop2.7.4-java8
+    container_name: namenode
     volumes:
       - namenode:/hadoop/dfs/name
       - ./big:/big/
@@ -19,6 +20,7 @@ services:
       - hadoop-network
   datanode1:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode1
     volumes:
       - datanode1:/hadoop/dfs/data
     env_file:
@@ -31,6 +33,7 @@ services:
       - hadoop-network
   datanode2:
     image: bde2020/hadoop-datanode:2.0.0-hadoop2.7.4-java8
+    container_name: datanode2
     volumes:
       - datanode2:/hadoop/dfs/data
     env_file:
@@ -43,6 +46,7 @@ services:
       - hadoop-network
   hive-server:
     image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-server
     env_file:
       - ./hadoop-hive.env
     environment:
@@ -54,6 +58,7 @@ services:
       - hadoop-network
   hive-metastore:
     image: bde2020/hive:2.3.2-postgresql-metastore
+    container_name: hive-metastore
     env_file:
       - ./hadoop-hive.env
     command: /opt/hive/bin/hive --service metastore
@@ -65,12 +70,14 @@ services:
       - hadoop-network
   hive-metastore-postgresql:
     image: bde2020/hive-metastore-postgresql:2.3.0
+    container_name: hive-metastore-postgresql
     ports:
       - "5432:5432"
     networks:
       - hadoop-network
   presto-coordinator:
     image: shawnzhu/prestodb:0.181
+    container_name: presto-coordinator
     ports:
       - "8080:8080"
     volumes:
@@ -79,6 +86,7 @@ services:
       - hadoop-network
   hue:
     image: bde2020/hdfs-filebrowser:3.11
+    container_name: hue
     ports:
       - 8088:8088
     environment:
